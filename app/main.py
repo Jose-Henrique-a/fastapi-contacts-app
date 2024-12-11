@@ -3,7 +3,7 @@ from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 # para rodar deployado :
-from . import models, database
+# from . import models, database
 
 #para rodar localmente:
 # import models, database
