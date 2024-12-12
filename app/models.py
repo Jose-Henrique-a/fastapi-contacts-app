@@ -2,11 +2,8 @@ from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
-# para rodar deployado:
+# comentar aqui para quebrar o deploy:
 # from . database import Base
-
-# para rodar localmente :
-# from database import Base
 
 class User(Base):
     __tablename__ = 'users'
