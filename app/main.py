@@ -2,11 +2,8 @@
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-# para rodar deployado :
+# comentar aqui para quebrar o deploy
 # from . import models, database
-
-#para rodar localmente:
-# import models, database
 
 models.Base.metadata.create_all(bind=database.engine)
 
