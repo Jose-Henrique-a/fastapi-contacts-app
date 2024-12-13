@@ -5,6 +5,8 @@ from sqlalchemy.orm import Session
 # comentar aqui para quebrar o deploy
 # from . import models, database
 
+# Rodar com : python -m uvicorn app.main:app --reload
+
 models.Base.metadata.create_all(bind=database.engine)
 
 app = FastAPI()
