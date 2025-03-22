@@ -13,7 +13,7 @@ app = FastAPI()
 
 @app.get("/")
 def read_root():
-    return {"message": "Welcome to the FastAPI Contacts App!"}
+    return {"message": "Bem-vindo ao aplicativo FastAPI Contacts!"}
 
 # Função para gerenciar as sessões do banco de dados
 def get_db():
