@@ -3,7 +3,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
 # comentar aqui para quebrar o deploy:
-from . database import Base
+# from . database import Base
 
 class User(Base):
     __tablename__ = 'users'
