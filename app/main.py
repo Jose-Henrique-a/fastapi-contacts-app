@@ -74,47 +74,52 @@ def get_contact(contact_id: int, db: Session = Depends(get_db)):
 #atualização do API <<<<<<<<<<<
 # Atualizar um usuário
 @app.put("/users/{user_id}")
-def update_user(user_id: int, user: UserUpdate, db: Session = Depends(get_db)):
-    db_user = db.query(models.User).filter(models.User.id == user_id).first()
-    if not db_user:
+def update_user(user_id: int, name: str = None, email: str = None, db: Session = Depends(get_db)):
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    if not user:
         raise HTTPException(status_code=404, detail="User not found")
-    update_data = user.dict(exclude_unset=True)  # Apenas campos fornecidos serão atualizados
-    for key, value in update_data.items():
-        setattr(db_user, key, value)
+    if name:
+        user.name = name
+    if email:
+        user.email = email
     db.commit()
-    db.refresh(db_user)
-    return db_user
+    db.refresh(user)
+    return user
 
 # Atualizar um contato
 @app.put("/contacts/{contact_id}")
-def update_contact(contact_id: int, contact: ContactUpdate, db: Session = Depends(get_db)):
-    db_contact = db.query(models.Contact).filter(models.Contact.id == contact_id).first()
-    if not db_contact:
+def update_contact(contact_id: int, name: str = None, phone: str = None, email: str = None, user_id: int = None, db: Session = Depends(get_db)):
+    contact = db.query(models.Contact).filter(models.Contact.id == contact_id).first()
+    if not contact:
         raise HTTPException(status_code=404, detail="Contact not found")
-    update_data = contact.dict(exclude_unset=True)
-    for key, value in update_data.items():
-        setattr(db_contact, key, value)
+    if name:
+        contact.name = name
+    if phone:
+        contact.phone = phone
+    if email:
+        contact.email = email
+    if user_id:
+        contact.user_id = user_id
     db.commit()
-    db.refresh(db_contact)
-    return db_contact
+    db.refresh(contact)
+    return contact
 
 # Deletar um usuário
 @app.delete("/users/{user_id}")
 def delete_user(user_id: int, db: Session = Depends(get_db)):
-    db_user = db.query(models.User).filter(models.User.id == user_id).first()
-    if not db_user:
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    if not user:
         raise HTTPException(status_code=404, detail="User not found")
-    db.delete(db_user)
+    db.delete(user)
     db.commit()
     return {"message": "User deleted successfully"}
 
 # Deletar um contato
 @app.delete("/contacts/{contact_id}")
 def delete_contact(contact_id: int, db: Session = Depends(get_db)):
-    db_contact = db.query(models.Contact).filter(models.Contact.id == contact_id).first()
-    if not db_contact:
+    contact = db.query(models.Contact).filter(models.Contact.id == contact_id).first()
+    if not contact:
         raise HTTPException(status_code=404, detail="Contact not found")
-    db.delete(db_contact)
+    db.delete(contact)
     db.commit()
     return {"message": "Contact deleted successfully"}
-
