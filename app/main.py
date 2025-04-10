@@ -68,49 +68,4 @@ def get_contact(contact_id: int, db: Session = Depends(get_db)):
     if not contact:
         raise HTTPException(status_code=404, detail="Contact not found")
     return contact
-#atualização do API <<<<<<<<<<<
-# Atualizar um usuário
-@app.put("/users/{user_id}")
-def update_user(user_id: int, user: UserUpdate, db: Session = Depends(get_db)):
-    db_user = db.query(models.User).filter(models.User.id == user_id).first()
-    if not db_user:
-        raise HTTPException(status_code=404, detail="User not found")
-    update_data = user.dict(exclude_unset=True)  # Apenas campos fornecidos serão atualizados
-    for key, value in update_data.items():
-        setattr(db_user, key, value)
-    db.commit()
-    db.refresh(db_user)
-    return db_user
 
-# Atualizar um contato
-@app.put("/contacts/{contact_id}")
-def update_contact(contact_id: int, contact: ContactUpdate, db: Session = Depends(get_db)):
-    db_contact = db.query(models.Contact).filter(models.Contact.id == contact_id).first()
-    if not db_contact:
-        raise HTTPException(status_code=404, detail="Contact not found")
-    update_data = contact.dict(exclude_unset=True)
-    for key, value in update_data.items():
-        setattr(db_contact, key, value)
-    db.commit()
-    db.refresh(db_contact)
-    return db_contact
-
-# Deletar um usuário
-@app.delete("/users/{user_id}")
-def delete_user(user_id: int, db: Session = Depends(get_db)):
-    db_user = db.query(models.User).filter(models.User.id == user_id).first()
-    if not db_user:
-        raise HTTPException(status_code=404, detail="User not found")
-    db.delete(db_user)
-    db.commit()
-    return {"message": "User deleted successfully"}
-
-# Deletar um contato
-@app.delete("/contacts/{contact_id}")
-def delete_contact(contact_id: int, db: Session = Depends(get_db)):
-    db_contact = db.query(models.Contact).filter(models.Contact.id == contact_id).first()
-    if not db_contact:
-        raise HTTPException(status_code=404, detail="Contact not found")
-    db.delete(db_contact)
-    db.commit()
-    return {"message": "Contact deleted successfully"}
