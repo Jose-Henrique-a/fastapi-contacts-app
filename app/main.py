@@ -3,7 +3,7 @@ from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 # comentar aqui para quebrar o deploy
-# from . import models, database
+from . import models, database
 
 # Rodar com : python -m uvicorn app.main:app --reload
 
