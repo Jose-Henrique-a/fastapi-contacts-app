@@ -4,7 +4,7 @@ fastapi-contacts-app.
 Link para quando estiver em execução: https://web-production-eedc.up.railway.app/
 
 # Gerendiador de Contatos
-Link para a aplicação que consume a API acima: https://jose-henrique-a.github.io/gerendiadorContatos/
+Link para a aplicação que consume a API acima: https://jose-henrique-a.github.io/Gerendiador-de-Contatos/
 
 Conheça também:
 
