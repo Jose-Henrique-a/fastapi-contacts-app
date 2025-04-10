@@ -22,10 +22,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/")
-def read_root():
-    return {"message": "Bem-vindo ao aplicativo FastAPI Contacts!"}
-
 # Função para gerenciar as sessões do banco de dados
 def get_db():
     db = database.SessionLocal()
@@ -33,7 +29,42 @@ def get_db():
         yield db
     finally:
         db.close()
+        
+@app.get("/")
+def read_root():
+    return {"message": "Bem-vindo ao aplicativo FastAPI Contacts!"}
 
+# Criar um novo usuário (aceitando JSON no corpo)
+@app.post("/users/")
+async def create_user(request: Request, db: Session = Depends(get_db)):
+    data = await request.json()  # Lê o corpo JSON
+    name = data.get("name")
+    email = data.get("email")
+    if not name or not email:
+        raise HTTPException(status_code=422, detail="Name and email are required")
+    user = models.User(name=name, email=email)
+    db.add(user)
+    db.commit()
+    db.refresh(user)
+    return user
+
+# Criar um novo contato (aceitando JSON no corpo)
+@app.post("/contacts/")
+async def create_contact(request: Request, db: Session = Depends(get_db)):
+    data = await request.json()
+    name = data.get("name")
+    phone = data.get("phone")
+    email = data.get("email")
+    user_id = data.get("user_id")
+    if not all([name, phone, email, user_id]):
+        raise HTTPException(status_code=422, detail="All fields are required")
+    contact = models.Contact(name=name, phone=phone, email=email, user_id=user_id)
+    db.add(contact)
+    db.commit()
+    db.refresh(contact)
+    return contact
+
+'''
 # Criar um novo usuário
 @app.post("/users/")
 def create_user(name: str, email: str, db: Session = Depends(get_db)):
@@ -51,6 +82,7 @@ def create_contact(name: str, phone: str, email: str, user_id: int, db: Session 
     db.commit()
     db.refresh(contact)
     return contact
+'''
 
 # Listar todos os usuários
 @app.get("/users/")
