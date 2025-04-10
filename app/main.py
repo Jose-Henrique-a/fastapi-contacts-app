@@ -1,6 +1,8 @@
 
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
+# adiciona middleware cors
+from fastapi.middleware.cors import CORSMiddleware
 
 # comentar aqui para quebrar o deploy
 from . import models, database
@@ -10,6 +12,15 @@ from . import models, database
 models.Base.metadata.create_all(bind=database.engine)
 
 app = FastAPI()
+
+# Configuração de CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost", "http://localhost:8000", "http://127.0.0.1"],  # Adicione as origens do seu front-end local
+    allow_credentials=True,
+    allow_methods=["*"],  # Permite todos os métodos (GET, POST, PUT, DELETE, etc.)
+    allow_headers=["*"],  # Permite todos os cabeçalhos
+)
 
 @app.get("/")
 def read_root():
