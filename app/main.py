@@ -87,35 +87,32 @@ def get_contact(contact_id: int, db: Session = Depends(get_db)):
 # Atualizacao abaixo para CRUD
 #atualização do API <<<<<<<<<<<
 # Atualizar um usuário
-# Substitua os endpoints PUT existentes por estes
 @app.put("/users/{user_id}")
-async def update_user(user_id: int, request: Request, db: Session = Depends(get_db)):
+def update_user(user_id: int, name: str = None, email: str = None, db: Session = Depends(get_db)):
     user = db.query(models.User).filter(models.User.id == user_id).first()
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
-    data = await request.json()
-    if "name" in data and data["name"]:
-        user.name = data["name"]
-    if "email" in data and data["email"]:
-        user.email = data["email"]
+    if name:
+        user.name = name
+    if email:
+        user.email = email
     db.commit()
     db.refresh(user)
     return user
 
 @app.put("/contacts/{contact_id}")
-async def update_contact(contact_id: int, request: Request, db: Session = Depends(get_db)):
+def update_contact(contact_id: int, name: str = None, phone: str = None, email: str = None, user_id: int = None, db: Session = Depends(get_db)):
     contact = db.query(models.Contact).filter(models.Contact.id == contact_id).first()
     if not contact:
         raise HTTPException(status_code=404, detail="Contact not found")
-    data = await request.json()
-    if "name" in data and data["name"]:
-        contact.name = data["name"]
-    if "phone" in data and data["phone"]:
-        contact.phone = data["phone"]
-    if "email" in data and data["email"]:
-        contact.email = data["email"]
-    if "user_id" in data and data["user_id"]:
-        contact.user_id = data["user_id"]
+    if name:
+        contact.name = name
+    if phone:
+        contact.phone = phone
+    if email:
+        contact.email = email
+    if user_id:
+        contact.user_id = user_id
     db.commit()
     db.refresh(contact)
     return contact
