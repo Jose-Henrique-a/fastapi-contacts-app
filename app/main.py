@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from fastapi.middleware.cors import CORSMiddleware
 
 # comentar aqui para quebrar o deploy
-# from . import models, database
+from . import models, database
 
 # Rodar com : python -m uvicorn app.main:app --reload
 
