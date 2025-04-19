@@ -1,7 +1,11 @@
 # fastapi-contacts-app
 fastapi-contacts-app.
 
-Link para quando estiver em execução: https://web-production-eedc.up.railway.app/
+Link para quando essa API estiver em execução: https://web-production-eedc.up.railway.app/
+
+Para tabela 'Users' : https://web-production-eedc.up.railway.app/users/
+
+Para tabela 'Contacts' : https://web-production-eedc.up.railway.app/contacts/
 
 # Gerendiador de Contatos
 Link para a aplicação que consume a API acima: https://jose-henrique-a.github.io/Gerendiador-de-Contatos/
